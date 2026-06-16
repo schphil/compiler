@@ -9,7 +9,8 @@ use crate::intermediate::{
         ToplevelInformationDefinition,
     },
     types::Optionality,
-    ASN1Type, ASN1Value, AsnTag, ToplevelDefinition, ToplevelTypeDefinition, ToplevelValueDefinition,
+    ASN1Type, ASN1Value, AsnTag, ToplevelDefinition, ToplevelTypeDefinition,
+    ToplevelValueDefinition,
 };
 
 use super::{
@@ -1049,7 +1050,7 @@ impl Rasn {
                         }
                     }
 
-                    pub fn encode<E: Encoder>(&self, encoder: &mut E, identifier: & #class_unique_id_type_name) -> Result<(), E::Error> {
+                    pub fn encode<'encoder, E: rasn::Encoder<'encoder>>(&self, encoder: &mut E, identifier: & #class_unique_id_type_name) -> Result<(), E::Error> {
                         match (self, identifier) {
                             #(#en_match_arms)*
                             _ => Err(rasn::error::EncodeError::from_kind(
