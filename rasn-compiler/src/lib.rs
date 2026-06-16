@@ -524,6 +524,11 @@ impl<B: Backend> Compiler<B, CompilerReady> {
                 modules
             },
         );
+        // Pre-compile: let backends build cross-module indexes
+        let all_tld_refs: Vec<&ToplevelDefinition> =
+            modules.values().flat_map(|m| m.iter()).collect();
+        self.backend.pre_compile(&all_tld_refs);
+
         for (_, module) in modules {
             let mut generated_module = self.backend.generate_module(module)?;
             if let Some(m) = generated_module.generated {

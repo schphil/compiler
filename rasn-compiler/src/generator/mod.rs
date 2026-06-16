@@ -25,6 +25,10 @@ pub trait Backend: Default {
     /// For example: `.ts` for Typescript, `.rs` for Rasn bindings.
     const FILE_EXTENSION: &'static str;
 
+    /// Optional pre-processing step called with all validated top-level definitions
+    /// before per-module code generation begins.
+    fn pre_compile(&mut self, _all_tlds: &[&ToplevelDefinition]) {}
+
     /// generates bindings for an ASN.1 module
     /// ### Params
     /// - `top_level_declarations` vector of [ToplevelDefinition]s that are defined in the ASN.1 module
