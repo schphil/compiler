@@ -1,4 +1,5 @@
 use std::{
+    collections::{HashMap, HashSet},
     env,
     error::Error,
     io::{self, Write},
@@ -33,6 +34,9 @@ pub struct Rasn {
     /// A combination of the builtin required derives (`Rasn::REQUIRED_DERIVES`) and those supplied
     /// by the user in `Config::type_annotations`.
     required_derives: Vec<String>,
+    /// Rust-cased names of all information object sets across compiled modules.
+    /// Used to resolve imports for helper types emitted by `generate_information_object_set`.
+    global_io_set_names: HashSet<String>,
 }
 
 #[cfg_attr(target_family = "wasm", wasm_bindgen(getter_with_clone))]
@@ -148,6 +152,7 @@ impl Backend for Rasn {
             extensibility_environment,
             tagging_environment,
             required_derives,
+            global_io_set_names: HashSet::new(),
         }
     }
 
@@ -161,6 +166,20 @@ impl Backend for Rasn {
 
     fn config(&self) -> &Self::Config {
         &self.config
+    }
+
+    fn pre_compile(&mut self, all_tlds: &[&ToplevelDefinition]) {
+        self.global_io_set_names = all_tlds
+            .iter()
+            .filter_map(|tld| {
+                if let ToplevelDefinition::Object(info_def) = tld {
+                    if let crate::prelude::ir::ASN1Information::ObjectSet(_) = &info_def.value {
+                        return Some(self.to_rust_title_case(&info_def.name).to_string());
+                    }
+                }
+                None
+            })
+            .collect();
     }
 
     fn generate_module(
@@ -182,6 +201,14 @@ impl Backend for Rasn {
                     details: e.to_string(),
                     ..Default::default()
                 })?;
+
+            // Map imported information object sets to their generated helper enum names.
+            let io_type_mapping: HashMap<String, String> = self
+                .global_io_set_names
+                .iter()
+                .map(|name| (name.clone(), format!("{name}_Type")))
+                .collect();
+
             let imports = module.imports.iter().map(|import| {
                 let module =
                     self.to_rust_snake_case(&import.global_module_reference.module_reference);
@@ -196,7 +223,16 @@ impl Backend for Rasn {
                         }
                     } else if usage.starts_with(|c: char| c.is_uppercase()) {
                         if let Some(us) = usages.as_mut() {
-                            us.push(self.to_rust_title_case(usage).to_token_stream())
+                            let mut ident = self.to_rust_title_case(usage).to_string();
+                            if self.config.opaque_open_types
+                                && self.global_io_set_names.contains(&ident)
+                            {
+                                continue;
+                            }
+                            if let Some(mapped) = io_type_mapping.get(&ident) {
+                                ident = mapped.clone();
+                            }
+                            us.push(TokenStream::from_str(&ident).unwrap());
                         }
                     }
                 }
