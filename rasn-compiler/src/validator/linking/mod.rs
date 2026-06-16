@@ -539,7 +539,17 @@ impl ASN1Type {
                         }
                     }
                 }
-                impl_template.link_elsewhere_declared(&impl_tlds)?;
+                // Only resolve parameter-scoped definitions here. Resolving against all
+                // visible definitions would inline ordinary named type references.
+                let param_resolve_tlds: BTreeMap<String, ToplevelDefinition> = impl_tlds
+                    .iter()
+                    .filter(|(k, v)| {
+                        matches!(v, ToplevelDefinition::Class(_))
+                            || parameters.iter().any(|p| &p.dummy_reference == *k)
+                    })
+                    .map(|(k, v)| (k.clone(), v.clone()))
+                    .collect();
+                impl_template.link_elsewhere_declared(&param_resolve_tlds)?;
                 if let Some(replacement) =
                     impl_template.link_constraint_reference(identifier, &impl_tlds)?
                 {
@@ -715,14 +725,10 @@ impl ASN1Type {
             ASN1Type::ElsewhereDeclaredType(e) => {
                 if let Some(ToplevelDefinition::Type(tld)) = tlds.get(&e.identifier) {
                     *self = tld.ty.clone();
-                    Ok(())
-                } else {
-                    Err(grammar_error!(
-                        LinkerError,
-                        "Failed to resolve argument {} of parameterized implementation.",
-                        e.identifier
-                    ))
                 }
+                // Leave references unchanged if the caller did not make them
+                // eligible for substitution.
+                Ok(())
             }
             ASN1Type::ObjectClassField(ocf) => {
                 if let Some(ToplevelDefinition::Class(c)) = tlds.get(&ocf.class) {
