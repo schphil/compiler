@@ -341,6 +341,8 @@ impl Rasn {
                 } else {
                     Ok(None)
                 };
+                let is_single_extension_addition = i >= first_extension_index.unwrap_or(usize::MAX)
+                    && !m.name.starts_with(INTERNAL_EXTENSION_GROUP_NAME_PREFIX);
                 let extension_annotation = if i >= first_extension_index.unwrap_or(usize::MAX)
                     && m.name.starts_with(INTERNAL_EXTENSION_GROUP_NAME_PREFIX)
                 {
@@ -350,18 +352,21 @@ impl Rasn {
                 } else {
                     TokenStream::new()
                 };
-                self.format_sequence_member(m, parent_name, extension_annotation)
-                    .and_then(|(declaration, name_type)| {
-                        nested.map(|n| (declaration, name_type, n))
-                    })
-                    .map(|(declaration, name_type, nested)| {
-                        acc.struct_body.append_all([declaration, quote!(, )]);
-                        acc.name_types.push(name_type);
-                        if let Some(n) = nested {
-                            acc.nested_anonymous_types.push(n);
-                        }
-                        acc
-                    })
+                self.format_sequence_member(
+                    m,
+                    parent_name,
+                    extension_annotation,
+                    is_single_extension_addition,
+                )
+                .and_then(|(declaration, name_type)| nested.map(|n| (declaration, name_type, n)))
+                .map(|(declaration, name_type, nested)| {
+                    acc.struct_body.append_all([declaration, quote!(, )]);
+                    acc.name_types.push(name_type);
+                    if let Some(n) = nested {
+                        acc.nested_anonymous_types.push(n);
+                    }
+                    acc
+                })
             },
         )
     }
@@ -371,6 +376,7 @@ impl Rasn {
         member: &SequenceOrSetMember,
         parent_name: &str,
         extension_annotation: TokenStream,
+        is_single_extension_addition: bool,
     ) -> Result<(TokenStream, NameType), GeneratorError> {
         let name = self.to_rust_snake_case(&member.name);
         let default_annotation = member
@@ -393,10 +399,14 @@ impl Rasn {
             extension_annotation,
             Some(default_annotation),
         )?;
+        // A required extension addition outside a group may still be absent: a sender of an
+        // earlier version of the module does not know it, and X.680 clause 6 forbids the
+        // decoder to signal an error then. It is therefore optional in Rust, like a group.
         if (member.optionality == Optionality::Optional)
             || member
                 .name
                 .starts_with(INTERNAL_EXTENSION_GROUP_NAME_PREFIX)
+            || (is_single_extension_addition && member.optionality == Optionality::Required)
         {
             formatted_type_name = quote!(Option<#formatted_type_name>);
         }

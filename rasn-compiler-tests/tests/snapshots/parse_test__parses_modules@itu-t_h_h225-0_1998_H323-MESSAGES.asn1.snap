@@ -1,5 +1,6 @@
 ---
 source: rasn-compiler-tests/tests/parse_test.rs
+assertion_line: 33
 input_file: rasn-compiler-tests/tests/modules/itu-t_h_h225-0_1998_H323-MESSAGES.asn1
 ---
 Warnings:
@@ -55,9 +56,9 @@ pub mod h323_messages {
         #[rasn(extension_addition, identifier = "transportQOS")]
         pub transport_qos: Option<TransportQOS>,
         #[rasn(extension_addition, identifier = "willRespondToIRR")]
-        pub will_respond_to_irr: bool,
+        pub will_respond_to_irr: Option<bool>,
         #[rasn(extension_addition, identifier = "uuiesRequested")]
-        pub uuies_requested: UUIEsRequested,
+        pub uuies_requested: Option<UUIEsRequested>,
     }
     impl AdmissionConfirm {
         pub fn new(
@@ -76,8 +77,8 @@ pub mod h323_messages {
             crypto_tokens: Option<SequenceOf<CryptoH323Token>>,
             integrity_check_value: Option<ICV>,
             transport_qos: Option<TransportQOS>,
-            will_respond_to_irr: bool,
-            uuies_requested: UUIEsRequested,
+            will_respond_to_irr: Option<bool>,
+            uuies_requested: Option<UUIEsRequested>,
         ) -> Self {
             Self {
                 request_seq_num,
@@ -200,9 +201,9 @@ pub mod h323_messages {
         #[rasn(identifier = "answerCall")]
         pub answer_call: bool,
         #[rasn(extension_addition, identifier = "canMapAlias")]
-        pub can_map_alias: bool,
+        pub can_map_alias: Option<bool>,
         #[rasn(extension_addition, identifier = "callIdentifier")]
-        pub call_identifier: CallIdentifier,
+        pub call_identifier: Option<CallIdentifier>,
         #[rasn(extension_addition, identifier = "srcAlternatives")]
         pub src_alternatives: Option<SequenceOf<Endpoint>>,
         #[rasn(extension_addition, identifier = "destAlternatives")]
@@ -218,7 +219,7 @@ pub mod h323_messages {
         #[rasn(extension_addition, identifier = "transportQOS")]
         pub transport_qos: Option<TransportQOS>,
         #[rasn(extension_addition, identifier = "willSupplyUUIEs")]
-        pub will_supply_uuies: bool,
+        pub will_supply_uuies: Option<bool>,
     }
     impl AdmissionRequest {
         pub fn new(
@@ -238,8 +239,8 @@ pub mod h323_messages {
             conference_id: ConferenceIdentifier,
             active_mc: bool,
             answer_call: bool,
-            can_map_alias: bool,
-            call_identifier: CallIdentifier,
+            can_map_alias: Option<bool>,
+            call_identifier: Option<CallIdentifier>,
             src_alternatives: Option<SequenceOf<Endpoint>>,
             dest_alternatives: Option<SequenceOf<Endpoint>>,
             gatekeeper_identifier: Option<GatekeeperIdentifier>,
@@ -247,7 +248,7 @@ pub mod h323_messages {
             crypto_tokens: Option<SequenceOf<CryptoH323Token>>,
             integrity_check_value: Option<ICV>,
             transport_qos: Option<TransportQOS>,
-            will_supply_uuies: bool,
+            will_supply_uuies: Option<bool>,
         ) -> Self {
             Self {
                 request_seq_num,
@@ -290,7 +291,7 @@ pub mod h323_messages {
         #[rasn(identifier = "h245Address")]
         pub h245_address: Option<TransportAddress>,
         #[rasn(extension_addition, identifier = "callIdentifier")]
-        pub call_identifier: CallIdentifier,
+        pub call_identifier: Option<CallIdentifier>,
         #[rasn(extension_addition, identifier = "h245SecurityMode")]
         pub h245_security_mode: Option<H245Security>,
         #[rasn(extension_addition)]
@@ -305,7 +306,7 @@ pub mod h323_messages {
             protocol_identifier: ProtocolIdentifier,
             destination_info: EndpointType,
             h245_address: Option<TransportAddress>,
-            call_identifier: CallIdentifier,
+            call_identifier: Option<CallIdentifier>,
             h245_security_mode: Option<H245Security>,
             tokens: Option<SequenceOf<ClearToken>>,
             crypto_tokens: Option<SequenceOf<CryptoH323Token>>,
@@ -505,7 +506,7 @@ pub mod h323_messages {
         #[rasn(identifier = "nonStandardData")]
         pub non_standard_data: Option<NonStandardParameter>,
         #[rasn(extension_addition, identifier = "callIdentifier")]
-        pub call_identifier: CallIdentifier,
+        pub call_identifier: Option<CallIdentifier>,
         #[rasn(extension_addition, identifier = "gatekeeperIdentifier")]
         pub gatekeeper_identifier: Option<GatekeeperIdentifier>,
         #[rasn(extension_addition)]
@@ -515,7 +516,7 @@ pub mod h323_messages {
         #[rasn(extension_addition, identifier = "integrityCheckValue")]
         pub integrity_check_value: Option<ICV>,
         #[rasn(extension_addition, identifier = "answeredCall")]
-        pub answered_call: bool,
+        pub answered_call: Option<bool>,
     }
     impl BandwidthRequest {
         pub fn new(
@@ -526,12 +527,12 @@ pub mod h323_messages {
             call_type: Option<CallType>,
             band_width: BandWidth,
             non_standard_data: Option<NonStandardParameter>,
-            call_identifier: CallIdentifier,
+            call_identifier: Option<CallIdentifier>,
             gatekeeper_identifier: Option<GatekeeperIdentifier>,
             tokens: Option<SequenceOf<ClearToken>>,
             crypto_tokens: Option<SequenceOf<CryptoH323Token>>,
             integrity_check_value: Option<ICV>,
-            answered_call: bool,
+            answered_call: Option<bool>,
         ) -> Self {
             Self {
                 request_seq_num,
@@ -580,7 +581,7 @@ pub mod h323_messages {
         #[rasn(identifier = "h245Address")]
         pub h245_address: Option<TransportAddress>,
         #[rasn(extension_addition, identifier = "callIdentifier")]
-        pub call_identifier: CallIdentifier,
+        pub call_identifier: Option<CallIdentifier>,
         #[rasn(extension_addition, identifier = "h245SecurityMode")]
         pub h245_security_mode: Option<H245Security>,
         #[rasn(extension_addition)]
@@ -595,7 +596,7 @@ pub mod h323_messages {
             protocol_identifier: ProtocolIdentifier,
             destination_info: EndpointType,
             h245_address: Option<TransportAddress>,
-            call_identifier: CallIdentifier,
+            call_identifier: Option<CallIdentifier>,
             h245_security_mode: Option<H245Security>,
             tokens: Option<SequenceOf<ClearToken>>,
             crypto_tokens: Option<SequenceOf<CryptoH323Token>>,
@@ -666,7 +667,7 @@ pub mod h323_messages {
         #[rasn(identifier = "conferenceID")]
         pub conference_id: ConferenceIdentifier,
         #[rasn(extension_addition, identifier = "callIdentifier")]
-        pub call_identifier: CallIdentifier,
+        pub call_identifier: Option<CallIdentifier>,
         #[rasn(extension_addition, identifier = "h245SecurityMode")]
         pub h245_security_mode: Option<H245Security>,
         #[rasn(extension_addition)]
@@ -682,7 +683,7 @@ pub mod h323_messages {
             h245_address: Option<TransportAddress>,
             destination_info: EndpointType,
             conference_id: ConferenceIdentifier,
-            call_identifier: CallIdentifier,
+            call_identifier: Option<CallIdentifier>,
             h245_security_mode: Option<H245Security>,
             tokens: Option<SequenceOf<ClearToken>>,
             crypto_tokens: Option<SequenceOf<CryptoH323Token>>,
@@ -892,7 +893,7 @@ pub mod h323_messages {
         #[rasn(identifier = "nonStandardData")]
         pub non_standard_data: Option<NonStandardParameter>,
         #[rasn(extension_addition, identifier = "callIdentifier")]
-        pub call_identifier: CallIdentifier,
+        pub call_identifier: Option<CallIdentifier>,
         #[rasn(extension_addition, identifier = "gatekeeperIdentifier")]
         pub gatekeeper_identifier: Option<GatekeeperIdentifier>,
         #[rasn(extension_addition)]
@@ -902,7 +903,7 @@ pub mod h323_messages {
         #[rasn(extension_addition, identifier = "integrityCheckValue")]
         pub integrity_check_value: Option<ICV>,
         #[rasn(extension_addition, identifier = "answeredCall")]
-        pub answered_call: bool,
+        pub answered_call: Option<bool>,
     }
     impl DisengageRequest {
         pub fn new(
@@ -912,12 +913,12 @@ pub mod h323_messages {
             call_reference_value: CallReferenceValue,
             disengage_reason: DisengageReason,
             non_standard_data: Option<NonStandardParameter>,
-            call_identifier: CallIdentifier,
+            call_identifier: Option<CallIdentifier>,
             gatekeeper_identifier: Option<GatekeeperIdentifier>,
             tokens: Option<SequenceOf<ClearToken>>,
             crypto_tokens: Option<SequenceOf<CryptoH323Token>>,
             integrity_check_value: Option<ICV>,
-            answered_call: bool,
+            answered_call: Option<bool>,
         ) -> Self {
             Self {
                 request_seq_num,
@@ -1051,7 +1052,7 @@ pub mod h323_messages {
         pub conference_id: Option<ConferenceIdentifier>,
         pub reason: FacilityReason,
         #[rasn(extension_addition, identifier = "callIdentifier")]
-        pub call_identifier: CallIdentifier,
+        pub call_identifier: Option<CallIdentifier>,
         #[rasn(extension_addition, identifier = "destExtraCallInfo")]
         pub dest_extra_call_info: Option<SequenceOf<AliasAddress>>,
         #[rasn(extension_addition, identifier = "remoteExtensionAddress")]
@@ -1072,7 +1073,7 @@ pub mod h323_messages {
             alternative_alias_address: Option<SequenceOf<AliasAddress>>,
             conference_id: Option<ConferenceIdentifier>,
             reason: FacilityReason,
-            call_identifier: CallIdentifier,
+            call_identifier: Option<CallIdentifier>,
             dest_extra_call_info: Option<SequenceOf<AliasAddress>>,
             remote_extension_address: Option<AliasAddress>,
             tokens: Option<SequenceOf<ClearToken>>,
@@ -1389,13 +1390,13 @@ pub mod h323_messages {
         #[rasn(extension_addition, identifier = "dataRatesSupported")]
         pub data_rates_supported: Option<SequenceOf<DataRate>>,
         #[rasn(extension_addition, identifier = "supportedPrefixes")]
-        pub supported_prefixes: SequenceOf<SupportedPrefix>,
+        pub supported_prefixes: Option<SequenceOf<SupportedPrefix>>,
     }
     impl H310Caps {
         pub fn new(
             non_standard_data: Option<NonStandardParameter>,
             data_rates_supported: Option<SequenceOf<DataRate>>,
-            supported_prefixes: SequenceOf<SupportedPrefix>,
+            supported_prefixes: Option<SequenceOf<SupportedPrefix>>,
         ) -> Self {
             Self {
                 non_standard_data,
@@ -1413,13 +1414,13 @@ pub mod h323_messages {
         #[rasn(extension_addition, identifier = "dataRatesSupported")]
         pub data_rates_supported: Option<SequenceOf<DataRate>>,
         #[rasn(extension_addition, identifier = "supportedPrefixes")]
-        pub supported_prefixes: SequenceOf<SupportedPrefix>,
+        pub supported_prefixes: Option<SequenceOf<SupportedPrefix>>,
     }
     impl H320Caps {
         pub fn new(
             non_standard_data: Option<NonStandardParameter>,
             data_rates_supported: Option<SequenceOf<DataRate>>,
-            supported_prefixes: SequenceOf<SupportedPrefix>,
+            supported_prefixes: Option<SequenceOf<SupportedPrefix>>,
         ) -> Self {
             Self {
                 non_standard_data,
@@ -1437,13 +1438,13 @@ pub mod h323_messages {
         #[rasn(extension_addition, identifier = "dataRatesSupported")]
         pub data_rates_supported: Option<SequenceOf<DataRate>>,
         #[rasn(extension_addition, identifier = "supportedPrefixes")]
-        pub supported_prefixes: SequenceOf<SupportedPrefix>,
+        pub supported_prefixes: Option<SequenceOf<SupportedPrefix>>,
     }
     impl H321Caps {
         pub fn new(
             non_standard_data: Option<NonStandardParameter>,
             data_rates_supported: Option<SequenceOf<DataRate>>,
-            supported_prefixes: SequenceOf<SupportedPrefix>,
+            supported_prefixes: Option<SequenceOf<SupportedPrefix>>,
         ) -> Self {
             Self {
                 non_standard_data,
@@ -1461,13 +1462,13 @@ pub mod h323_messages {
         #[rasn(extension_addition, identifier = "dataRatesSupported")]
         pub data_rates_supported: Option<SequenceOf<DataRate>>,
         #[rasn(extension_addition, identifier = "supportedPrefixes")]
-        pub supported_prefixes: SequenceOf<SupportedPrefix>,
+        pub supported_prefixes: Option<SequenceOf<SupportedPrefix>>,
     }
     impl H322Caps {
         pub fn new(
             non_standard_data: Option<NonStandardParameter>,
             data_rates_supported: Option<SequenceOf<DataRate>>,
-            supported_prefixes: SequenceOf<SupportedPrefix>,
+            supported_prefixes: Option<SequenceOf<SupportedPrefix>>,
         ) -> Self {
             Self {
                 non_standard_data,
@@ -1504,7 +1505,7 @@ pub mod h323_messages {
         #[rasn(extension_addition, identifier = "h4501SupplementaryService")]
         pub h4501_supplementary_service: Option<SequenceOf<OctetString>>,
         #[rasn(extension_addition, identifier = "h245Tunneling")]
-        pub h245_tunneling: bool,
+        pub h245_tunneling: Option<bool>,
         #[rasn(extension_addition, identifier = "h245Control")]
         pub h245_control: Option<SequenceOf<OctetString>>,
         #[rasn(extension_addition, identifier = "nonStandardControl")]
@@ -1515,7 +1516,7 @@ pub mod h323_messages {
             h323_message_body: H323UUPDUH323MessageBody,
             non_standard_data: Option<NonStandardParameter>,
             h4501_supplementary_service: Option<SequenceOf<OctetString>>,
-            h245_tunneling: bool,
+            h245_tunneling: Option<bool>,
             h245_control: Option<SequenceOf<OctetString>>,
             non_standard_control: Option<SequenceOf<NonStandardParameter>>,
         ) -> Self {
@@ -1573,13 +1574,13 @@ pub mod h323_messages {
         #[rasn(extension_addition, identifier = "dataRatesSupported")]
         pub data_rates_supported: Option<SequenceOf<DataRate>>,
         #[rasn(extension_addition, identifier = "supportedPrefixes")]
-        pub supported_prefixes: SequenceOf<SupportedPrefix>,
+        pub supported_prefixes: Option<SequenceOf<SupportedPrefix>>,
     }
     impl H323Caps {
         pub fn new(
             non_standard_data: Option<NonStandardParameter>,
             data_rates_supported: Option<SequenceOf<DataRate>>,
-            supported_prefixes: SequenceOf<SupportedPrefix>,
+            supported_prefixes: Option<SequenceOf<SupportedPrefix>>,
         ) -> Self {
             Self {
                 non_standard_data,
@@ -1597,13 +1598,13 @@ pub mod h323_messages {
         #[rasn(extension_addition, identifier = "dataRatesSupported")]
         pub data_rates_supported: Option<SequenceOf<DataRate>>,
         #[rasn(extension_addition, identifier = "supportedPrefixes")]
-        pub supported_prefixes: SequenceOf<SupportedPrefix>,
+        pub supported_prefixes: Option<SequenceOf<SupportedPrefix>>,
     }
     impl H324Caps {
         pub fn new(
             non_standard_data: Option<NonStandardParameter>,
             data_rates_supported: Option<SequenceOf<DataRate>>,
-            supported_prefixes: SequenceOf<SupportedPrefix>,
+            supported_prefixes: Option<SequenceOf<SupportedPrefix>>,
         ) -> Self {
             Self {
                 non_standard_data,
@@ -1637,7 +1638,7 @@ pub mod h323_messages {
         #[rasn(identifier = "replyAddress")]
         pub reply_address: Option<TransportAddress>,
         #[rasn(extension_addition, identifier = "callIdentifier")]
-        pub call_identifier: CallIdentifier,
+        pub call_identifier: Option<CallIdentifier>,
         #[rasn(extension_addition)]
         pub tokens: Option<SequenceOf<ClearToken>>,
         #[rasn(extension_addition, identifier = "cryptoTokens")]
@@ -1653,7 +1654,7 @@ pub mod h323_messages {
             call_reference_value: CallReferenceValue,
             non_standard_data: Option<NonStandardParameter>,
             reply_address: Option<TransportAddress>,
-            call_identifier: CallIdentifier,
+            call_identifier: Option<CallIdentifier>,
             tokens: Option<SequenceOf<ClearToken>>,
             crypto_tokens: Option<SequenceOf<CryptoH323Token>>,
             integrity_check_value: Option<ICV>,
@@ -1793,13 +1794,13 @@ pub mod h323_messages {
         #[rasn(identifier = "callModel")]
         pub call_model: CallModel,
         #[rasn(extension_addition, identifier = "callIdentifier")]
-        pub call_identifier: CallIdentifier,
+        pub call_identifier: Option<CallIdentifier>,
         #[rasn(extension_addition)]
         pub tokens: Option<SequenceOf<ClearToken>>,
         #[rasn(extension_addition, identifier = "cryptoTokens")]
         pub crypto_tokens: Option<SequenceOf<CryptoH323Token>>,
         #[rasn(extension_addition, identifier = "substituteConfIDs")]
-        pub substitute_conf_ids: SequenceOf<ConferenceIdentifier>,
+        pub substitute_conf_ids: Option<SequenceOf<ConferenceIdentifier>>,
         #[rasn(extension_addition)]
         pub pdu: Option<AnonymousInfoRequestResponsePerCallInfoPdu>,
     }
@@ -1817,10 +1818,10 @@ pub mod h323_messages {
             call_type: CallType,
             band_width: BandWidth,
             call_model: CallModel,
-            call_identifier: CallIdentifier,
+            call_identifier: Option<CallIdentifier>,
             tokens: Option<SequenceOf<ClearToken>>,
             crypto_tokens: Option<SequenceOf<CryptoH323Token>>,
-            substitute_conf_ids: SequenceOf<ConferenceIdentifier>,
+            substitute_conf_ids: Option<SequenceOf<ConferenceIdentifier>>,
             pdu: Option<AnonymousInfoRequestResponsePerCallInfoPdu>,
         ) -> Self {
             Self {
@@ -1877,7 +1878,7 @@ pub mod h323_messages {
         #[rasn(extension_addition, identifier = "integrityCheckValue")]
         pub integrity_check_value: Option<ICV>,
         #[rasn(extension_addition, identifier = "needResponse")]
-        pub need_response: bool,
+        pub need_response: Option<bool>,
     }
     impl InfoRequestResponse {
         pub fn new(
@@ -1892,7 +1893,7 @@ pub mod h323_messages {
             tokens: Option<SequenceOf<ClearToken>>,
             crypto_tokens: Option<SequenceOf<CryptoH323Token>>,
             integrity_check_value: Option<ICV>,
-            need_response: bool,
+            need_response: Option<bool>,
         ) -> Self {
             Self {
                 non_standard_data,
@@ -1917,12 +1918,12 @@ pub mod h323_messages {
         #[rasn(identifier = "protocolIdentifier")]
         pub protocol_identifier: ProtocolIdentifier,
         #[rasn(extension_addition, identifier = "callIdentifier")]
-        pub call_identifier: CallIdentifier,
+        pub call_identifier: Option<CallIdentifier>,
     }
     impl InformationUUIE {
         pub fn new(
             protocol_identifier: ProtocolIdentifier,
-            call_identifier: CallIdentifier,
+            call_identifier: Option<CallIdentifier>,
         ) -> Self {
             Self {
                 protocol_identifier,
@@ -2067,7 +2068,7 @@ pub mod h323_messages {
         #[rasn(extension_addition, identifier = "sourceInfo")]
         pub source_info: Option<SequenceOf<AliasAddress>>,
         #[rasn(extension_addition, identifier = "canMapAlias")]
-        pub can_map_alias: bool,
+        pub can_map_alias: Option<bool>,
     }
     impl LocationRequest {
         pub fn new(
@@ -2077,7 +2078,7 @@ pub mod h323_messages {
             non_standard_data: Option<NonStandardParameter>,
             reply_address: TransportAddress,
             source_info: Option<SequenceOf<AliasAddress>>,
-            can_map_alias: bool,
+            can_map_alias: Option<bool>,
         ) -> Self {
             Self {
                 request_seq_num,
@@ -2523,7 +2524,7 @@ pub mod h323_messages {
         #[rasn(extension_addition, identifier = "integrityCheckValue")]
         pub integrity_check_value: Option<ICV>,
         #[rasn(extension_addition, identifier = "willRespondToIRR")]
-        pub will_respond_to_irr: bool,
+        pub will_respond_to_irr: Option<bool>,
         #[rasn(extension_addition, identifier = "preGrantedARQ")]
         pub pre_granted_arq: Option<RegistrationConfirmPreGrantedARQ>,
     }
@@ -2541,7 +2542,7 @@ pub mod h323_messages {
             tokens: Option<SequenceOf<ClearToken>>,
             crypto_tokens: Option<SequenceOf<CryptoH323Token>>,
             integrity_check_value: Option<ICV>,
-            will_respond_to_irr: bool,
+            will_respond_to_irr: Option<bool>,
             pre_granted_arq: Option<RegistrationConfirmPreGrantedARQ>,
         ) -> Self {
             Self {
@@ -2666,11 +2667,11 @@ pub mod h323_messages {
         #[rasn(extension_addition, identifier = "integrityCheckValue")]
         pub integrity_check_value: Option<ICV>,
         #[rasn(extension_addition, identifier = "keepAlive")]
-        pub keep_alive: bool,
+        pub keep_alive: Option<bool>,
         #[rasn(extension_addition, identifier = "endpointIdentifier")]
         pub endpoint_identifier: Option<EndpointIdentifier>,
         #[rasn(extension_addition, identifier = "willSupplyUUIEs")]
-        pub will_supply_uuies: bool,
+        pub will_supply_uuies: Option<bool>,
     }
     impl RegistrationRequest {
         pub fn new(
@@ -2689,9 +2690,9 @@ pub mod h323_messages {
             tokens: Option<SequenceOf<ClearToken>>,
             crypto_tokens: Option<SequenceOf<CryptoH323Token>>,
             integrity_check_value: Option<ICV>,
-            keep_alive: bool,
+            keep_alive: Option<bool>,
             endpoint_identifier: Option<EndpointIdentifier>,
-            will_supply_uuies: bool,
+            will_supply_uuies: Option<bool>,
         ) -> Self {
             Self {
                 request_seq_num,
@@ -2723,13 +2724,13 @@ pub mod h323_messages {
         pub protocol_identifier: ProtocolIdentifier,
         pub reason: Option<ReleaseCompleteReason>,
         #[rasn(extension_addition, identifier = "callIdentifier")]
-        pub call_identifier: CallIdentifier,
+        pub call_identifier: Option<CallIdentifier>,
     }
     impl ReleaseCompleteUUIE {
         pub fn new(
             protocol_identifier: ProtocolIdentifier,
             reason: Option<ReleaseCompleteReason>,
-            call_identifier: CallIdentifier,
+            call_identifier: Option<CallIdentifier>,
         ) -> Self {
             Self {
                 protocol_identifier,
@@ -2965,7 +2966,7 @@ pub mod h323_messages {
         #[rasn(extension_addition, identifier = "remoteExtensionAddress")]
         pub remote_extension_address: Option<AliasAddress>,
         #[rasn(extension_addition, identifier = "callIdentifier")]
-        pub call_identifier: CallIdentifier,
+        pub call_identifier: Option<CallIdentifier>,
         #[rasn(extension_addition, identifier = "h245SecurityCapability")]
         pub h245_security_capability: Option<SequenceOf<H245Security>>,
         #[rasn(extension_addition)]
@@ -2975,9 +2976,9 @@ pub mod h323_messages {
         #[rasn(extension_addition, identifier = "fastStart")]
         pub fast_start: Option<SequenceOf<OctetString>>,
         #[rasn(extension_addition, identifier = "mediaWaitForConnect")]
-        pub media_wait_for_connect: bool,
+        pub media_wait_for_connect: Option<bool>,
         #[rasn(extension_addition, identifier = "canOverlapSend")]
-        pub can_overlap_send: bool,
+        pub can_overlap_send: Option<bool>,
     }
     impl SetupUUIE {
         pub fn new(
@@ -2996,13 +2997,13 @@ pub mod h323_messages {
             call_type: CallType,
             source_call_signal_address: Option<TransportAddress>,
             remote_extension_address: Option<AliasAddress>,
-            call_identifier: CallIdentifier,
+            call_identifier: Option<CallIdentifier>,
             h245_security_capability: Option<SequenceOf<H245Security>>,
             tokens: Option<SequenceOf<ClearToken>>,
             crypto_tokens: Option<SequenceOf<CryptoH323Token>>,
             fast_start: Option<SequenceOf<OctetString>>,
-            media_wait_for_connect: bool,
-            can_overlap_send: bool,
+            media_wait_for_connect: Option<bool>,
+            can_overlap_send: Option<bool>,
         ) -> Self {
             Self {
                 protocol_identifier,
@@ -3072,13 +3073,13 @@ pub mod h323_messages {
         #[rasn(extension_addition, identifier = "dataRatesSupported")]
         pub data_rates_supported: Option<SequenceOf<DataRate>>,
         #[rasn(extension_addition, identifier = "supportedPrefixes")]
-        pub supported_prefixes: SequenceOf<SupportedPrefix>,
+        pub supported_prefixes: Option<SequenceOf<SupportedPrefix>>,
     }
     impl T120OnlyCaps {
         pub fn new(
             non_standard_data: Option<NonStandardParameter>,
             data_rates_supported: Option<SequenceOf<DataRate>>,
-            supported_prefixes: SequenceOf<SupportedPrefix>,
+            supported_prefixes: Option<SequenceOf<SupportedPrefix>>,
         ) -> Self {
             Self {
                 non_standard_data,
@@ -3465,13 +3466,13 @@ pub mod h323_messages {
         #[rasn(extension_addition, identifier = "dataRatesSupported")]
         pub data_rates_supported: Option<SequenceOf<DataRate>>,
         #[rasn(extension_addition, identifier = "supportedPrefixes")]
-        pub supported_prefixes: SequenceOf<SupportedPrefix>,
+        pub supported_prefixes: Option<SequenceOf<SupportedPrefix>>,
     }
     impl VoiceCaps {
         pub fn new(
             non_standard_data: Option<NonStandardParameter>,
             data_rates_supported: Option<SequenceOf<DataRate>>,
-            supported_prefixes: SequenceOf<SupportedPrefix>,
+            supported_prefixes: Option<SequenceOf<SupportedPrefix>>,
         ) -> Self {
             Self {
                 non_standard_data,

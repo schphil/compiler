@@ -1,5 +1,6 @@
 ---
 source: rasn-compiler-tests/tests/parse_test.rs
+assertion_line: 33
 input_file: rasn-compiler-tests/tests/modules/itu-t_h_h501_2002_H501-MESSAGES.asn1
 ---
 Warnings:
@@ -617,7 +618,7 @@ pub mod h501_messages {
         #[rasn(extension_addition, identifier = "featureSet")]
         pub feature_set: Option<FeatureSet>,
         #[rasn(extension_addition)]
-        pub version: ProtocolVersion,
+        pub version: Option<ProtocolVersion>,
     }
     impl MessageCommonInfo {
         pub fn new(
@@ -632,7 +633,7 @@ pub mod h501_messages {
             service_id: Option<ServiceID>,
             generic_data: Option<SequenceOf<GenericData>>,
             feature_set: Option<FeatureSet>,
-            version: ProtocolVersion,
+            version: Option<ProtocolVersion>,
         ) -> Self {
             Self {
                 sequence_number,

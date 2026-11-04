@@ -1,5 +1,6 @@
 ---
 source: rasn-compiler-tests/tests/parse_test.rs
+assertion_line: 33
 input_file: rasn-compiler-tests/tests/modules/itu-t_h_h245_2003v10_MULTIMEDIA-SYSTEM-CONTROL.asn1
 ---
 Generated:
@@ -403,13 +404,13 @@ pub mod multimedia_system_control {
         pub forward_logical_channel_number: LogicalChannelNumber,
         pub source: CloseLogicalChannelSource,
         #[rasn(extension_addition)]
-        pub reason: CloseLogicalChannelReason,
+        pub reason: Option<CloseLogicalChannelReason>,
     }
     impl CloseLogicalChannel {
         pub fn new(
             forward_logical_channel_number: LogicalChannelNumber,
             source: CloseLogicalChannelSource,
-            reason: CloseLogicalChannelReason,
+            reason: Option<CloseLogicalChannelReason>,
         ) -> Self {
             Self {
                 forward_logical_channel_number,
@@ -586,7 +587,7 @@ pub mod multimedia_system_control {
         #[rasn(identifier = "chairControlCapability")]
         pub chair_control_capability: bool,
         #[rasn(extension_addition, identifier = "videoIndicateMixingCapability")]
-        pub video_indicate_mixing_capability: bool,
+        pub video_indicate_mixing_capability: Option<bool>,
         #[rasn(extension_addition, identifier = "multipointVisualizationCapability")]
         pub multipoint_visualization_capability: Option<bool>,
     }
@@ -594,7 +595,7 @@ pub mod multimedia_system_control {
         pub fn new(
             non_standard_data: Option<SequenceOf<NonStandardParameter>>,
             chair_control_capability: bool,
-            video_indicate_mixing_capability: bool,
+            video_indicate_mixing_capability: Option<bool>,
             multipoint_visualization_capability: Option<bool>,
         ) -> Self {
             Self {
@@ -2696,9 +2697,9 @@ pub mod multimedia_system_control {
         #[rasn(identifier = "h223MultiplexTableCapability")]
         pub h223_multiplex_table_capability: H223CapabilityH223MultiplexTableCapability,
         #[rasn(extension_addition, identifier = "maxMUXPDUSizeCapability")]
-        pub max_muxpdusize_capability: bool,
+        pub max_muxpdusize_capability: Option<bool>,
         #[rasn(extension_addition, identifier = "nsrpSupport")]
-        pub nsrp_support: bool,
+        pub nsrp_support: Option<bool>,
         #[rasn(extension_addition, identifier = "mobileOperationTransmitCapability")]
         pub mobile_operation_transmit_capability:
             Option<H223CapabilityMobileOperationTransmitCapability>,
@@ -2725,8 +2726,8 @@ pub mod multimedia_system_control {
             maximum_al3_sdusize: u16,
             maximum_delay_jitter: u16,
             h223_multiplex_table_capability: H223CapabilityH223MultiplexTableCapability,
-            max_muxpdusize_capability: bool,
-            nsrp_support: bool,
+            max_muxpdusize_capability: Option<bool>,
+            nsrp_support: Option<bool>,
             mobile_operation_transmit_capability: Option<
                 H223CapabilityMobileOperationTransmitCapability,
             >,
@@ -2968,9 +2969,9 @@ pub mod multimedia_system_control {
         )]
         pub redundancy_encoding_capability: Option<SequenceOf<RedundancyEncodingCapability>>,
         #[rasn(extension_addition, identifier = "logicalChannelSwitchingCapability")]
-        pub logical_channel_switching_capability: bool,
+        pub logical_channel_switching_capability: Option<bool>,
         #[rasn(extension_addition, identifier = "t120DynamicPortCapability")]
-        pub t120_dynamic_port_capability: bool,
+        pub t120_dynamic_port_capability: Option<bool>,
     }
     impl H2250Capability {
         pub fn new(
@@ -2983,8 +2984,8 @@ pub mod multimedia_system_control {
             media_packetization_capability: MediaPacketizationCapability,
             transport_capability: Option<TransportCapability>,
             redundancy_encoding_capability: Option<SequenceOf<RedundancyEncodingCapability>>,
-            logical_channel_switching_capability: bool,
-            t120_dynamic_port_capability: bool,
+            logical_channel_switching_capability: Option<bool>,
+            t120_dynamic_port_capability: Option<bool>,
         ) -> Self {
             Self {
                 maximum_audio_delay_jitter,
@@ -3016,7 +3017,7 @@ pub mod multimedia_system_control {
         #[rasn(value("96..=127"), identifier = "dynamicRTPPayloadType")]
         pub dynamic_rtppayload_type: Option<u8>,
         #[rasn(extension_addition, identifier = "flowControlToZero")]
-        pub flow_control_to_zero: bool,
+        pub flow_control_to_zero: Option<bool>,
         #[rasn(extension_addition, value("0..=65535"), identifier = "portNumber")]
         pub port_number: Option<u16>,
     }
@@ -3027,7 +3028,7 @@ pub mod multimedia_system_control {
             media_channel: Option<TransportAddress>,
             media_control_channel: Option<TransportAddress>,
             dynamic_rtppayload_type: Option<u8>,
-            flow_control_to_zero: bool,
+            flow_control_to_zero: Option<bool>,
             port_number: Option<u16>,
         ) -> Self {
             Self {
@@ -3259,7 +3260,7 @@ pub mod multimedia_system_control {
         #[rasn(identifier = "stillImageTransmission")]
         pub still_image_transmission: bool,
         #[rasn(extension_addition, identifier = "videoBadMBsCap")]
-        pub video_bad_mbs_cap: bool,
+        pub video_bad_mbs_cap: Option<bool>,
     }
     impl H261VideoCapability {
         pub fn new(
@@ -3268,7 +3269,7 @@ pub mod multimedia_system_control {
             temporal_spatial_trade_off_capability: bool,
             max_bit_rate: u16,
             still_image_transmission: bool,
-            video_bad_mbs_cap: bool,
+            video_bad_mbs_cap: Option<bool>,
         ) -> Self {
             Self {
                 qcif_mpi,
@@ -3349,7 +3350,7 @@ pub mod multimedia_system_control {
         #[rasn(value("0..=4294967295"), identifier = "luminanceSampleRate")]
         pub luminance_sample_rate: Option<u32>,
         #[rasn(extension_addition, identifier = "videoBadMBsCap")]
-        pub video_bad_mbs_cap: bool,
+        pub video_bad_mbs_cap: Option<bool>,
     }
     impl H262VideoCapability {
         pub fn new(
@@ -3370,7 +3371,7 @@ pub mod multimedia_system_control {
             lines_per_frame: Option<u16>,
             frames_per_second: Option<u8>,
             luminance_sample_rate: Option<u32>,
-            video_bad_mbs_cap: bool,
+            video_bad_mbs_cap: Option<bool>,
         ) -> Self {
             Self {
                 profile_and_level_spat_ml,
@@ -3509,9 +3510,9 @@ pub mod multimedia_system_control {
         #[rasn(identifier = "modifiedQuantizationMode")]
         pub modified_quantization_mode: bool,
         #[rasn(extension_addition, identifier = "enhancedReferencePicSelect")]
-        pub enhanced_reference_pic_select: bool,
+        pub enhanced_reference_pic_select: Option<bool>,
         #[rasn(extension_addition, identifier = "h263Version3Options")]
-        pub h263_version3_options: H263Version3Options,
+        pub h263_version3_options: Option<H263Version3Options>,
     }
     impl H263ModeComboFlags {
         pub fn new(
@@ -3536,8 +3537,8 @@ pub mod multimedia_system_control {
             independent_segment_decoding: bool,
             alternate_inter_vlcmode: bool,
             modified_quantization_mode: bool,
-            enhanced_reference_pic_select: bool,
-            h263_version3_options: H263Version3Options,
+            enhanced_reference_pic_select: Option<bool>,
+            h263_version3_options: Option<H263Version3Options>,
         ) -> Self {
             Self {
                 unrestricted_vector,
@@ -3629,9 +3630,9 @@ pub mod multimedia_system_control {
         #[rasn(size("1..=16"), identifier = "modeCombos")]
         pub mode_combos: Option<SetOf<H263VideoModeCombos>>,
         #[rasn(extension_addition, identifier = "videoBadMBsCap")]
-        pub video_bad_mbs_cap: bool,
+        pub video_bad_mbs_cap: Option<bool>,
         #[rasn(extension_addition, identifier = "h263Version3Options")]
-        pub h263_version3_options: H263Version3Options,
+        pub h263_version3_options: Option<H263Version3Options>,
     }
     impl H263Options {
         pub fn new(
@@ -3664,8 +3665,8 @@ pub mod multimedia_system_control {
             custom_picture_clock_frequency: Option<SetOf<CustomPictureClockFrequency>>,
             custom_picture_format: Option<SetOf<CustomPictureFormat>>,
             mode_combos: Option<SetOf<H263VideoModeCombos>>,
-            video_bad_mbs_cap: bool,
-            h263_version3_options: H263Version3Options,
+            video_bad_mbs_cap: Option<bool>,
+            h263_version3_options: Option<H263Version3Options>,
         ) -> Self {
             Self {
                 advanced_intra_coding_mode,
@@ -3787,7 +3788,7 @@ pub mod multimedia_system_control {
         #[rasn(extension_addition, value("1..=3600"), identifier = "slowCif16MPI")]
         pub slow_cif16_mpi: Option<u16>,
         #[rasn(extension_addition, identifier = "errorCompensation")]
-        pub error_compensation: bool,
+        pub error_compensation: Option<bool>,
         #[rasn(extension_addition, identifier = "enhancementLayerInfo")]
         pub enhancement_layer_info: Option<EnhancementLayerInfo>,
         #[rasn(extension_addition, identifier = "h263Options")]
@@ -3813,7 +3814,7 @@ pub mod multimedia_system_control {
             slow_cif_mpi: Option<u16>,
             slow_cif4_mpi: Option<u16>,
             slow_cif16_mpi: Option<u16>,
-            error_compensation: bool,
+            error_compensation: Option<bool>,
             enhancement_layer_info: Option<EnhancementLayerInfo>,
             h263_options: Option<H263Options>,
         ) -> Self {
@@ -3871,7 +3872,7 @@ pub mod multimedia_system_control {
         #[rasn(identifier = "pbFrames")]
         pub pb_frames: bool,
         #[rasn(extension_addition, identifier = "errorCompensation")]
-        pub error_compensation: bool,
+        pub error_compensation: Option<bool>,
         #[rasn(extension_addition, identifier = "enhancementLayerInfo")]
         pub enhancement_layer_info: Option<EnhancementLayerInfo>,
         #[rasn(extension_addition, identifier = "h263Options")]
@@ -3885,7 +3886,7 @@ pub mod multimedia_system_control {
             arithmetic_coding: bool,
             advanced_prediction: bool,
             pb_frames: bool,
-            error_compensation: bool,
+            error_compensation: Option<bool>,
             enhancement_layer_info: Option<EnhancementLayerInfo>,
             h263_options: Option<H263Options>,
         ) -> Self {
@@ -4041,7 +4042,7 @@ pub mod multimedia_system_control {
         #[rasn(value("0..=4294967295"), identifier = "luminanceSampleRate")]
         pub luminance_sample_rate: Option<u32>,
         #[rasn(extension_addition, identifier = "videoBadMBsCap")]
-        pub video_bad_mbs_cap: bool,
+        pub video_bad_mbs_cap: Option<bool>,
     }
     impl IS11172VideoCapability {
         pub fn new(
@@ -4052,7 +4053,7 @@ pub mod multimedia_system_control {
             lines_per_frame: Option<u16>,
             picture_rate: Option<u8>,
             luminance_sample_rate: Option<u32>,
-            video_bad_mbs_cap: bool,
+            video_bad_mbs_cap: Option<bool>,
         ) -> Self {
             Self {
                 constrained_bitstream,
@@ -6167,7 +6168,7 @@ pub mod multimedia_system_control {
         pub aal: NewATMVCIndicationAal,
         pub multiplex: NewATMVCIndicationMultiplex,
         #[rasn(extension_addition, identifier = "reverseParameters")]
-        pub reverse_parameters: NewATMVCIndicationReverseParameters,
+        pub reverse_parameters: Option<NewATMVCIndicationReverseParameters>,
     }
     impl NewATMVCIndication {
         pub fn new(
@@ -6177,7 +6178,7 @@ pub mod multimedia_system_control {
             bit_rate_locked_to_network_clock: bool,
             aal: NewATMVCIndicationAal,
             multiplex: NewATMVCIndicationMultiplex,
-            reverse_parameters: NewATMVCIndicationReverseParameters,
+            reverse_parameters: Option<NewATMVCIndicationReverseParameters>,
         ) -> Self {
             Self {
                 resource_id,
@@ -7073,14 +7074,14 @@ pub mod multimedia_system_control {
         #[rasn(identifier = "videoBackChannelSend")]
         pub video_back_channel_send: RefPictureSelectionVideoBackChannelSend,
         #[rasn(extension_addition, identifier = "enhancedReferencePicSelect")]
-        pub enhanced_reference_pic_select: RefPictureSelectionEnhancedReferencePicSelect,
+        pub enhanced_reference_pic_select: Option<RefPictureSelectionEnhancedReferencePicSelect>,
     }
     impl RefPictureSelection {
         pub fn new(
             additional_picture_memory: Option<RefPictureSelectionAdditionalPictureMemory>,
             video_mux: bool,
             video_back_channel_send: RefPictureSelectionVideoBackChannelSend,
-            enhanced_reference_pic_select: RefPictureSelectionEnhancedReferencePicSelect,
+            enhanced_reference_pic_select: Option<RefPictureSelectionEnhancedReferencePicSelect>,
         ) -> Self {
             Self {
                 additional_picture_memory,
@@ -7149,13 +7150,13 @@ pub mod multimedia_system_control {
         #[rasn(extension_addition, identifier = "qosCapability")]
         pub qos_capability: Option<QOSCapability>,
         #[rasn(extension_addition)]
-        pub reason: RequestChannelCloseReason,
+        pub reason: Option<RequestChannelCloseReason>,
     }
     impl RequestChannelClose {
         pub fn new(
             forward_logical_channel_number: LogicalChannelNumber,
             qos_capability: Option<QOSCapability>,
-            reason: RequestChannelCloseReason,
+            reason: Option<RequestChannelCloseReason>,
         ) -> Self {
             Self {
                 forward_logical_channel_number,
@@ -7546,9 +7547,9 @@ pub mod multimedia_system_control {
         #[rasn(identifier = "transcodingMMR")]
         pub transcoding_mmr: bool,
         #[rasn(extension_addition, value("0..=255"))]
-        pub version: u8,
+        pub version: Option<u8>,
         #[rasn(extension_addition, identifier = "t38FaxRateManagement")]
-        pub t38_fax_rate_management: T38FaxRateManagement,
+        pub t38_fax_rate_management: Option<T38FaxRateManagement>,
         #[rasn(extension_addition, identifier = "t38FaxUdpOptions")]
         pub t38_fax_udp_options: Option<T38FaxUdpOptions>,
         #[rasn(extension_addition, identifier = "t38FaxTcpOptions")]
@@ -7559,8 +7560,8 @@ pub mod multimedia_system_control {
             fill_bit_removal: bool,
             transcoding_jbig: bool,
             transcoding_mmr: bool,
-            version: u8,
-            t38_fax_rate_management: T38FaxRateManagement,
+            version: Option<u8>,
+            t38_fax_rate_management: Option<T38FaxRateManagement>,
             t38_fax_udp_options: Option<T38FaxUdpOptions>,
             t38_fax_tcp_options: Option<T38FaxTcpOptions>,
         ) -> Self {

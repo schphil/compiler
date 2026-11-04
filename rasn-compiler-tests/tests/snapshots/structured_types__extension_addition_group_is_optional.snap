@@ -1,0 +1,42 @@
+---
+source: rasn-compiler-tests/tests/structured_types.rs
+description: "\n    Requestor ::= SEQUENCE {\n        id      INTEGER,\n        ...,\n        [[ ocit    INTEGER ]]\n    }\n    "
+---
+Generated:
+#[allow(
+    non_camel_case_types,
+    non_snake_case,
+    non_upper_case_globals,
+    unused,
+    clippy::too_many_arguments
+)]
+pub mod test_module {
+    extern crate alloc;
+    use core::borrow::Borrow;
+    use rasn::prelude::*;
+    use std::sync::LazyLock;
+    #[doc = " Inner type "]
+    #[derive(AsnType, Debug, Clone, Decode, Encode, PartialEq, Eq, Hash)]
+    #[rasn(automatic_tags)]
+    pub struct RequestorExtGroupOcit {
+        pub ocit: Integer,
+    }
+    impl RequestorExtGroupOcit {
+        pub fn new(ocit: Integer) -> Self {
+            Self { ocit }
+        }
+    }
+    #[derive(AsnType, Debug, Clone, Decode, Encode, PartialEq, Eq, Hash)]
+    #[rasn(automatic_tags)]
+    #[non_exhaustive]
+    pub struct Requestor {
+        pub id: Integer,
+        #[rasn(extension_addition_group, identifier = "SEQUENCE")]
+        pub ext_group_ocit: Option<RequestorExtGroupOcit>,
+    }
+    impl Requestor {
+        pub fn new(id: Integer, ext_group_ocit: Option<RequestorExtGroupOcit>) -> Self {
+            Self { id, ext_group_ocit }
+        }
+    }
+}
