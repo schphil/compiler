@@ -233,3 +233,41 @@ e2e_pdu!(
         T ::= CHOICE { a INTEGER, b [1] BOOLEAN, c OCTET STRING }
     "#
 );
+
+// X.680 clause 6: an extension addition may be absent when the sender follows an earlier version
+// of the module, and the decoder must not signal an error. A required single extension addition
+// is therefore generated as an `Option`, like an extension addition group.
+e2e_pdu!(
+    required_extension_addition_is_optional,
+    r#"
+    Requestor ::= SEQUENCE {
+        id      INTEGER,
+        ...,
+        ocit    INTEGER
+    }
+    "#
+);
+
+// A DEFAULT covers the absence, so the field stays as it is.
+e2e_pdu!(
+    extension_addition_with_default_is_not_optional,
+    r#"
+    Requestor ::= SEQUENCE {
+        id      INTEGER,
+        ...,
+        ocit    INTEGER DEFAULT 1
+    }
+    "#
+);
+
+// An extension addition group is optional already; unchanged by the rule above.
+e2e_pdu!(
+    extension_addition_group_is_optional,
+    r#"
+    Requestor ::= SEQUENCE {
+        id      INTEGER,
+        ...,
+        [[ ocit    INTEGER ]]
+    }
+    "#
+);

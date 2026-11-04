@@ -1,5 +1,6 @@
 ---
 source: rasn-compiler-tests/tests/parse_test.rs
+assertion_line: 33
 input_file: rasn-compiler-tests/tests/modules/itu-t_t_t124_1998_GCC-PROTOCOL.asn1
 ---
 Generated:
@@ -413,7 +414,7 @@ pub mod gcc_protocol {
         #[rasn(extension_addition, identifier = "nodeCategory")]
         pub node_category: Option<NodeCategory>,
         #[rasn(extension_addition, identifier = "networkAddressV2")]
-        pub network_address_v2: NetworkAddressV2,
+        pub network_address_v2: Option<NetworkAddressV2>,
     }
     impl ConferenceAddRequest {
         pub fn new(
@@ -423,7 +424,7 @@ pub mod gcc_protocol {
             adding_mcu: Option<UserID>,
             user_data: Option<UserData>,
             node_category: Option<NodeCategory>,
-            network_address_v2: NetworkAddressV2,
+            network_address_v2: Option<NetworkAddressV2>,
         ) -> Self {
             Self {
                 network_address,
@@ -609,9 +610,9 @@ pub mod gcc_protocol {
         #[rasn(identifier = "networkAddress")]
         pub network_address: Option<NetworkAddress>,
         #[rasn(extension_addition, identifier = "defaultConferenceFlag")]
-        pub default_conference_flag: bool,
+        pub default_conference_flag: Option<bool>,
         #[rasn(extension_addition, identifier = "conferenceMode")]
-        pub conference_mode: ConferenceMode,
+        pub conference_mode: Option<ConferenceMode>,
     }
     impl ConferenceDescriptor {
         pub fn new(
@@ -621,8 +622,8 @@ pub mod gcc_protocol {
             locked_conference: bool,
             password_in_the_clear_required: bool,
             network_address: Option<NetworkAddress>,
-            default_conference_flag: bool,
-            conference_mode: ConferenceMode,
+            default_conference_flag: Option<bool>,
+            conference_mode: Option<ConferenceMode>,
         ) -> Self {
             Self {
                 conference_name,
